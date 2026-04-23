@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Lost Message - Full Mission</title>
+
+<style>
+body{
+    margin:0;
+    font-family:"Segoe UI", sans-serif;
+    background: linear-gradient(to top, #87ceeb, #e0f6ff);
+}
+
+.cloud{
+    position:absolute;
+    background:white;
+    border-radius:50%;
+    opacity:0.75;
+}
+.c1{width:140px;height:70px;top:40px;left:60px;}
+.c2{width:170px;height:80px;top:130px;right:90px;}
+.c3{width:150px;height:70px;bottom:100px;left:160px;}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:25px;
+}
+
+.card{
+    background:#fffdf7;
+    padding:22px;
+    margin-top:20px;
+    border-radius:16px;
+    display:none;
+    box-shadow:0 10px 20px rgba(0,0,0,0.12);
+    border:2px solid #fcd34d;
+}
+
+h1{
+    text-align:center;
+    color:#1d3557;
+}
+
+.subtitle{
+    text-align:center;
+    color:#457b9d;
+}
+
+/* neutralized choices (no obvious answer hints) */
+button{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    transition:0.2s;
+    background:#dbeafe;
+    color:#1f2937;
+}
+
+button:hover{
+    transform:scale(1.02);
+    background:#bfdbfe;
+}
+
+/* special story styling */
+.story{
+    line-height:1.6;
+    font-size:16px;
+}
+
+/* character box */
+.character{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.character img{
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    border:3px solid #fcd34d;
+}
+
+/* scoreboard */
+.scoreboard{
+    background:#1d3557;
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+<div class="cloud c3"></div>
+
+<div class="container">
+
+<h1>🎮 THE LOST MESSAGE</h1>
+<p class="subtitle">Communication Restoration Mission</p>
+
+<div class="scoreboard">
+Diction: <span id="d">0</span> |
+Transitions: <span id="t">0</span> |
+Structure: <span id="s">0</span>
+</div>
+
+<!-- START -->
+<div id="start" class="card" style="display:block;">
+<h2>📩 Situation Report</h2>
+
+<div class="character">
+<img src="https://i.imgur.com/4AiXzf8.png">
+<div><b>Mira</b><br>School Journalist</div>
+</div>
+
+<p class="story">
+A school-wide announcement system has started failing.
+Messages are being passed around but become unclear and confusing.
+Mira is tasked to fix the communication flow—but she needs your help.
+</p>
+
+<button onclick="go('d1')">Begin Mission</button>
+</div>
+
+<!-- DICTION -->
+<div id="d1" class="card">
+<h2>🧠 Phase 1: Message Clarity (Diction)</h2>
+
+<p class="story">
+Mira receives a draft:
+<br><br>
+“The administration utilized comprehensive communication methodologies to disseminate important information to all stakeholders.”
+<br><br>
+Some students look confused after reading it.
+</p>
+
+<p><b>What should be improved?</b></p>
+
+<button onclick="correct('d','d2')">Make the message easier to understand</button>
+<button onclick="next('d2')">Keep it as it is for formality</button>
+</div>
+
+<div id="d2" class="card">
+<h2>🧠 Phase 1: Second Draft</h2>
+
+<p class="story">
+Another version appears:
+<br><br>
+“The school shared the announcement clearly with students.”
+</p>
+
+<p><b>What is the effect of this revision?</b></p>
+
+<button onclick="correct('d','t1')">It improves clarity and understanding</button>
+<button onclick="next('t1')">It makes it more complicated</button>
+</div>
+
+<!-- TRANSITIONS -->
+<div id="t1" class="card">
+<h2>🔗 Phase 2: Message Flow</h2>
+
+<p class="story">
+“The announcement was posted. Students were informed.”
+</p>
+
+<p><b>Improve the connection:</b></p>
+
+<button onclick="correct('t','t2')">The announcement was posted, so students were informed.</button>
+<button onclick="next('t2')">The announcement was posted students were informed</button>
+</div>
+
+<div id="t2" class="card">
+<h2>🔗 Phase 2: Real Situation</h2>
+
+<p class="story">
+“I was tired. I continued working on the report.”
+</p>
+
+<p><b>Best improvement:</b></p>
+
+<button onclick="correct('t','s1')">I was tired, but I continued working on the report.</button>
+<button onclick="next('s1')">I was tired I continued working report</button>
+</div>
+
+<!-- STRUCTURE -->
+<div id="s1" class="card">
+<h2>📝 Phase 3: Sentence Order Crisis</h2>
+
+<p class="story">
+A message is scrambled during transmission:
+<br><br>
+“clearly / students / the / understood / announcement / the”
+</p>
+
+<p><b>Choose the correct sentence:</b></p>
+
+<button onclick="correct('s','end')">The students clearly understood the announcement.</button>
+<button onclick="end()">Announcement the students clearly understood the</button>
+</div>
+
+<!-- ENDING -->
+<div id="end" class="card">
+<h2>🏆 Mission Complete</h2>
+
+<p class="story">
+The communication system has been restored.
+Messages are now clear, structured, and easy to understand.
+</p>
+
+<button onclick="result()">View Score</button>
+</div>
+
+<!-- SCORE -->
+<div id="final" class="card">
+<h2>📊 Performance Result</h2>
+<p id="scoretext"></p>
+<button onclick="restart()">Retry Mission</button>
+</div>
+
+</div>
+
+<script>
+
+let score = {d:0,t:0,s:0};
+
+function go(id){
+    document.querySelectorAll(".card").forEach(c=>c.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+
+function correct(type,nextId){
+    score[type]++;
+    document.getElementById(type).innerText = score[type];
+    go(nextId);
+}
+
+function next(id){
+    go(id);
+}
+
+function end(){
+    go('end');
+}
+
+function result(){
+    let total = score.d + score.t + score.s;
+    document.getElementById("scoretext").innerHTML =
+    "Diction: " + score.d + "<br>" +
+    "Transitions: " + score.t + "<br>" +
+    "Structure: " + score.s + "<br><br>" +
+    "<b>Total Score: " + total + " / 5</b>";
+
+    go('final');
+}
+
+function restart(){
+    score = {d:0,t:0,s:0};
+    document.getElementById("d").innerText=0;
+    document.getElementById("t").innerText=0;
+    document.getElementById("s").innerText=0;
+    go('start');
+}
+
+</script>
+
+</body>
+</html>
